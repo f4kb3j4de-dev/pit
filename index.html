@@ -6,9 +6,9 @@
     <title>PIT: Journal of Professional Inutile Training</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root { --main-color: #1a1a1a; --bg-color: #fdfdfb; --accent-red: #b22222; --card-bg: #ffffff; }
+        :root { --main-color: #1a1a1a; --bg-color: #fdfdfb; --accent-red: #8b0000; --card-bg: #ffffff; }
         
-        /* 全局字体缩小，行高收紧 */
+        /* 全局样式 */
         body { 
             font-family: "Times New Roman", Times, "SimSun", serif; 
             background-color: var(--bg-color); 
@@ -20,12 +20,10 @@
             font-size: 0.95rem; 
         }
         
-        /* 刊头缩小 */
+        /* 刊头与Slogan */
         .header { text-align: center; border-bottom: 4px double var(--main-color); padding-bottom: 15px; margin-bottom: 25px; }
         .header h1 { font-size: 2.2rem; margin: 0; font-weight: 900; letter-spacing: -1px; }
         .header p { font-size: 0.8rem; letter-spacing: 2px; margin-top: 5px; color: #666; }
-
-        /* Slogan 比例微调 */
         .slogan-box { text-align: center; margin: 30px 0; padding: 20px; border: 1px solid #eee; background: #fff; }
         .slogan-en { font-size: 1.2rem; font-weight: 800; display: block; }
         .slogan-cn { font-size: 1.4rem; font-weight: 900; margin-top: 10px; color: #000; display: block; }
@@ -41,47 +39,51 @@
         .section-title { background: #000; color: #fff; padding: 6px 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         .section-title h2 { margin: 0; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* 文献卡片：缩小间距 */
+        /* 文献卡片 */
         .paper-item { background: #fff; border: 1px solid #eee; padding: 15px; margin-bottom: 20px; box-shadow: 2px 2px 0 #f0f0f0; }
         .paper-title { font-size: 1.15rem; font-weight: bold; color: #000; display: block; margin-bottom: 8px; cursor: pointer; line-height: 1.3; }
         .paper-abstract { font-size: 0.9rem; background: #f9f9f9; padding: 12px; border-left: 3px solid #000; margin: 10px 0; color: #444; }
         .paper-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
 
-        /* PI Index 侧边栏及进度条 */
-        .pi-card { border: 1px solid #ddd; padding: 12px; margin-bottom: 20px; background: #fff; }
-        .pi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;}
-        .pi-major-name { font-size: 1.1rem; font-weight: 900; }
-        .pi-count { font-size: 1.2rem; font-weight: 950; color: var(--accent-red); }
+        /* ================= 论坛与热评样式补全 ================= */
+        .forum-module { 
+            border: 1px solid #ddd; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            background: #fff; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+        }
+        .forum-module:hover { border-color: #bbb; box-shadow: 2px 2px 8px rgba(0,0,0,0.05); }
+        .progress-container { background: #eee; height: 8px; margin-top: 10px; border: 1px solid #ccc; overflow: hidden; }
+        .progress-bar { background: var(--main-color); height: 100%; width: 0%; transition: width 0.6s ease-out; }
         
-        /* 进度条样式 */
-        .progress-bar { height: 8px; background: #eee; border: 1px solid #ccc; margin-bottom: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--main-color); width: 0%; transition: width 0.5s ease; }
-
-        .pi-comment-list { font-size: 0.85rem; color: #333; background: #fcfcfc; padding: 8px; border: 1px solid #f0f0f0; max-height: 150px; overflow-y: auto; }
-        .comment-item { border-bottom: 1px dashed #ddd; padding: 5px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;}
-        .comment-item:last-child { border-bottom: none; }
-        .comment-text { flex: 1; word-break: break-all; }
+        .comment-section { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; cursor: default; }
         
-        .like-btn { background: none; border: 1px solid #ccc; color: #555; padding: 2px 6px; font-size: 0.75rem; border-radius: 3px; cursor: pointer; white-space: nowrap;}
-        .like-btn:hover:not(:disabled) { background: #eee; border-color: #999; }
-        .like-btn:disabled { color: #aaa; cursor: not-allowed; background: #f9f9f9; border-color: #eee;}
+        .hot-comment { 
+            background: #fdfdfb; 
+            border-left: 3px solid var(--accent-red); 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            font-size: 0.85rem; 
+            color: #333; 
+            font-style: italic;
+        }
+        .hot-comment-footer { margin-top: 8px; text-align: right; }
+        
+        .like-btn { background: #f0f0f0; border: 1px solid #ccc; color: #333; padding: 3px 8px; font-size: 0.75rem; cursor: pointer; border-radius: 2px;}
+        .like-btn:hover:not(:disabled) { background: #e4e4e4; }
+        .like-btn:disabled { color: #aaa; cursor: not-allowed; background: #fafafa; border-color: #eee;}
 
-        .comment-input-area { margin-top: 10px; display: flex; gap: 5px; }
-        .comment-input { flex: 1; padding: 5px; font-size: 0.85rem; border: 1px solid #ccc; }
-
-        /* 底部声明 */
+        /* 底部声明与弹窗 */
         .footer { margin-top: 50px; border-top: 2px solid var(--main-color); padding: 30px 20px; text-align: center; background: #fff; font-weight: bold; font-size: 0.95rem;}
         .footer span { margin: 0 15px; color: var(--main-color); }
-
-        /* 弹窗 */
         dialog { border: 3px solid #000; width: 90%; max-width: 500px; padding: 25px; position: relative; font-size: 0.95rem; }
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; line-height: 1; color: #999; }
         .close-btn:hover { color: #000; }
-
-        button { background: #000; color: #fff; border: none; padding: 6px 12px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
+        button { background: #000; color: #fff; border: none; padding: 8px 12px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
         button:disabled { background: #888; cursor: not-allowed; }
-        input, textarea { font-size: 0.9rem; padding: 8px; border: 1px solid #ccc; margin-bottom: 10px; width: 100%; box-sizing: border-box; }
-
+        input, textarea { font-size: 0.9rem; padding: 8px; border: 1px solid #ccc; margin-bottom: 10px; width: 100%; box-sizing: border-box; font-family: inherit;}
         .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 15px; font-size: 0.85rem; }
     </style>
 </head>
@@ -116,7 +118,8 @@
                 <h2>Pit Index / 天坑指数</h2>
                 <button onclick="document.getElementById('applyModal').showModal()" style="font-size:0.7rem; padding: 2px 6px;">申报</button>
             </div>
-            <div id="pi-container">📡 统计中...</div>
+            <div id="loading-msg" style="text-align: center; color: #888; margin-top: 20px;">📡 深渊统计中...</div>
+            <div id="forum-container"></div>
         </div>
     </div>
 
@@ -158,12 +161,10 @@
         const p2 = 'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxidWh0amV6bGtpcmt4YmZnd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1Mzk0OTksImV4cCI6MjA4ODExNTQ5OX0.dBP_u7PXyy9D_mCYGYDkDzvOArDBcQ6Qf8FO0wdO5lg';
         const _supabase = supabase.createClient(supabaseUrl, p1 + p2);
 
+        // ================= 1. 文献区逻辑 =================
         let curPage = 1;
         const pageSize = 10;
 
-        window.onload = () => { fetchPapers(); fetchPI(); };
-
-        // --- 文献区逻辑 ---
         async function fetchPapers() {
             const start = (curPage - 1) * pageSize;
             const end = start + pageSize - 1;
@@ -214,80 +215,127 @@
             fetchPapers();
         }
 
-        // --- 天坑指数 (PI Index) 核心逻辑 ---
-        async function fetchPI() {
-            // 1. 获取所有天坑专业
-            const { data: majors } = await _supabase.from('pit_forum').select('*').order('count', { ascending: false });
-            // 2. 获取所有评论 (按点赞数排序)
-            const { data: comments } = await _supabase.from('pit_comments').select('*').order('likes', { ascending: false }).order('created_at', { ascending: false });
 
-            document.getElementById('pi-container').innerHTML = majors?.map(f => {
-                const hasVoted = localStorage.getItem('voted_major_' + f.id); // 检查是否已入坑
-                const majorComments = comments.filter(c => c.major_id === f.id);
+        // ================= 2. 论坛热评点赞逻辑 (完美替换) =================
+        let globalForumData = [];
+        let globalCommentsData = [];
+
+        // 同时拉取分数和所有评论
+        async function fetchAllForumData() {
+            const [forumRes, commentsRes] = await Promise.all([
+                _supabase.from('pit_forum').select('*').order('count', { ascending: false }),
+                _supabase.from('pit_comments').select('*').order('likes', { ascending: false }) // 按点赞数从高到低排序
+            ]);
+            
+            if (!forumRes.error && !commentsRes.error) {
+                globalForumData = forumRes.data;
+                globalCommentsData = commentsRes.data;
+                document.getElementById('loading-msg').style.display = 'none';
+                renderForum();
+            }
+        }
+
+        function renderForum() {
+            const container = document.getElementById('forum-container');
+            container.innerHTML = '';
+            
+            globalForumData.forEach(item => {
+                const progressPercent = Math.min((item.count / 250) * 100, 100);
+                const hasCommented = localStorage.getItem(`pit_commented_${item.id}`);
                 
-                // 计算进度条 (0 到 -250)
-                const progressPct = Math.min((f.count / 250) * 100, 100);
-                const displayCount = f.count === 0 ? 0 : `-${f.count}`;
+                // 筛选出属于当前专业的前 3 条最热评论
+                const topComments = globalCommentsData.filter(c => c.major_id === item.id).slice(0, 3);
+                
+                // 拼接热评 HTML
+                let commentsHTML = '<div style="margin-bottom: 10px; color: var(--accent-red);"><strong>🔥 Top 3 绝望语录:</strong></div>';
+                if (topComments.length > 0) {
+                    topComments.forEach(c => {
+                        const hasLiked = localStorage.getItem(`pit_liked_${c.id}`);
+                        commentsHTML += `
+                            <div class="hot-comment">
+                                "${c.content}"
+                                <div class="hot-comment-footer">
+                                    <button class="like-btn" onclick="likeComment(event, ${c.id}, ${c.likes})" ${hasLiked ? 'disabled' : ''}>
+                                        👍 ${c.likes} ${hasLiked ? '(已赞)' : ''}
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    commentsHTML += `<div style="color:#888; font-style:italic; margin-bottom: 15px;">暂无遗言，等待第一位怨种。</div>`;
+                }
 
-                // 渲染评论列表
-                const commentsHtml = majorComments.map(c => {
-                    const hasLiked = localStorage.getItem('liked_comment_' + c.id);
-                    return `
-                    <div class="comment-item">
-                        <span class="comment-text">💬 ${c.content}</span>
-                        <button class="like-btn" onclick="likeComment(${c.id}, ${c.likes})" ${hasLiked ? 'disabled' : ''}>
-                            👍 ${c.likes}
-                        </button>
+                container.innerHTML += `
+                    <div class="forum-module" onclick="toggleComment('${item.id}')">
+                        <div style="font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between;">
+                            <span>${item.name}</span>
+                            <span style="font-size: 0.8rem; color: #888; font-weight: normal;">点击展开详情 ▼</span>
+                        </div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">全网总分数: <strong style="color: var(--accent-red);">-${item.count}</strong> / -250</div>
+                        <div class="progress-container"><div class="progress-bar" style="width: ${progressPercent}%;"></div></div>
+                        
+                        <div class="comment-section" id="comment_${item.id}" onclick="event.stopPropagation()">
+                            ${commentsHTML}
+                            <div style="margin-top: 15px; border-top: 1px dashed #999; padding-top: 15px;">
+                                <textarea id="input_${item.id}" rows="2" placeholder="${hasCommented ? '你已将自己活埋，无法再次发声。' : '写下你的遗言，坑深 -1... (将被沉入深渊等待点赞)'}" ${hasCommented ? 'disabled' : ''}></textarea>
+                                <button id="btn_${item.id}" onclick="submitForum('${item.id}', ${item.count})" style="margin-top:10px; width: 100%;" ${hasCommented ? 'disabled' : ''}>
+                                    ${hasCommented ? '💀 已活埋' : '提交遗言，坠落 -1'}
+                                </button>
+                            </div>
+                        </div>
                     </div>`;
-                }).join('') || '<div style="color:#999; padding:5px 0;">等待首位受害者...</div>';
-
-                return `
-                <div class="pi-card">
-                    <div class="pi-header">
-                        <span class="pi-major-name">${f.name}</span>
-                        <span class="pi-count">n = ${displayCount}</span>
-                    </div>
-                    
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${progressPct}%"></div>
-                    </div>
-                    
-                    <div class="pi-comment-list">
-                        ${commentsHtml}
-                    </div>
-                    
-                    <div class="comment-input-area">
-                        <input type="text" id="input_${f.id}" class="comment-input" placeholder="${hasVoted ? '你已入坑' : '发表一句遗言...'}" ${hasVoted?'disabled':''}>
-                        <button onclick="postComment('${f.id}', ${f.count})" ${hasVoted?'disabled':''}>
-                            ${hasVoted ? '已入坑' : '发布'}
-                        </button>
-                    </div>
-                </div>`;
-            }).join('');
+            });
         }
 
-        // 提交评论
-        async function postComment(majorId, currentCount) {
-            const text = document.getElementById('input_' + majorId).value.trim();
-            if(!text) return;
-            
-            // 1. 把评论写入新的 pit_comments 表
-            await _supabase.from('pit_comments').insert([{ major_id: majorId, content: text, likes: 0 }]);
-            
-            // 2. 把坑深指数 count + 1
-            await _supabase.from('pit_forum').update({ count: currentCount + 1 }).eq('id', majorId);
-            
-            // 3. 锁死输入框
-            localStorage.setItem('voted_major_' + majorId, 'true');
-            fetchPI();
+        function toggleComment(id) {
+            const sec = document.getElementById(`comment_${id}`);
+            sec.style.display = sec.style.display === 'block' ? 'none' : 'block';
         }
 
-        // 给评论点赞
-        async function likeComment(commentId, currentLikes) {
+        // 点赞交互
+        async function likeComment(event, commentId, currentLikes) {
+            event.stopPropagation(); // 防止触发模块折叠
+            
+            // 乐观更新 UI（不等待网络返回，先给用户视觉反馈）
+            event.target.innerText = `👍 ${currentLikes + 1} (已赞)`;
+            event.target.disabled = true;
+            localStorage.setItem(`pit_liked_${commentId}`, 'true');
+
+            // 往数据库写数据
             await _supabase.from('pit_comments').update({ likes: currentLikes + 1 }).eq('id', commentId);
-            localStorage.setItem('liked_comment_' + commentId, 'true');
-            fetchPI();
+            
+            // 重新拉取以确保排序正确
+            fetchAllForumData();
         }
+
+        // 提交新评论，坑深-1
+        async function submitForum(id, currentCount) {
+            const text = document.getElementById(`input_${id}`).value.trim();
+            if (!text) return;
+            
+            const btn = document.getElementById(`btn_${id}`);
+            btn.innerText = "下坠中..."; btn.disabled = true;
+
+            // 1. 存入新评论（点赞初始为0）
+            await _supabase.from('pit_comments').insert([{ major_id: id, content: text }]);
+            
+            // 2. 更新总进度
+            const newCount = currentCount >= 250 ? 250 : currentCount + 1;
+            await _supabase.from('pit_forum').update({ count: newCount }).eq('id', id);
+            
+            localStorage.setItem(`pit_commented_${id}`, 'true');
+            alert("遗言已提交！进度条-1。您的评论正在深渊中等待路人打捞点赞。");
+            
+            document.getElementById(`input_${id}`).value = '';
+            fetchAllForumData();
+        }
+
+        // ================= 3. 页面初始化 =================
+        window.onload = () => {
+            fetchPapers();
+            fetchAllForumData();
+        };
     </script>
 </body>
 </html>
