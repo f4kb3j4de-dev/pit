@@ -6,6 +6,166 @@
     <title>PIT: Journal of Professional Inutile Training</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        body { font-family: "Times New Roman", SimSun, serif; background: #f4f4f2; color: #1c1c1c; max-width: 900px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; }
+        .header { text-align: center; border-bottom: 4px solid #1c1c1c; padding-bottom: 20px; margin-bottom: 50px; }
+        .section-title { border-bottom: 2px solid #1c1c1c; padding: 10px 0; margin: 50px 0 20px; text-transform: uppercase; font-weight: bold; }
+        
+        /* 文献区样式 */
+        .paper-item { background: #fff; border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; }
+        .paper-title { font-size: 1.3rem; font-weight: bold; cursor: pointer; text-decoration: underline; }
+        .abstract { font-size: 0.9rem; color: #555; background: #f9f9f9; padding: 10px; margin: 10px 0; border-left: 4px solid #ccc; }
+
+        /* 天坑区样式 */
+        .pit-card { border: 2px solid #1c1c1c; background: #ebebe8; padding: 25px; margin-bottom: 35px; }
+        .prog-container { width: 100%; height: 20px; border: 2px solid #1c1c1c; background: #fff; margin: 15px 0; position: relative; }
+        .prog-bar { height: 100%; background: #1c1c1c; transition: width 0.6s ease; }
+        .hot-comment { background: #fff; border: 1px dashed #999; padding: 10px; margin-bottom: 10px; font-size: 0.9rem; position: relative; }
+        
+        /* 按钮与输入 */
+        button { background: #1c1c1c; color: #fff; border: none; padding: 10px 20px; cursor: pointer; font-family: inherit; font-weight: bold; }
+        button:disabled { background: #999; cursor: not-allowed; }
+        textarea { width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #1c1c1c; }
+        
+        .ai-generator { border: 5px double #1c1c1c; padding: 30px; margin-top: 60px; text-align: center; }
+        .page-ctrl { text-align: center; margin: 20px 0; }
+        dialog { border: 4px solid #1c1c1c; width: 90%; max-width: 650px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>PIT: Journal of Professional Inutile Training</h1>
+    <p>天坑专业收容所 | ISSN 0000-0250 | 2026</p>
+</div>
+
+<div class="ai-generator">
+    <h3>AI Abstract Generator / 废话生成器</h3>
+    <p>输入你的关键词，生成 300 字高大上学术废话</p>
+    <input type="text" id="ai-kw" placeholder="如：洗瓶子 / 搬砖" style="padding:10px; width:60%;">
+    <button onclick="generateAI()">一键生成</button>
+    <div id="ai-result" style="margin-top:20px; text-align:left; font-style:italic;"></div>
+</div>
+
+<div class="section-title">Latest Literature / 最新文献 (Page <span id="page-num">1</span>)</div>
+<div id="papers-list">📡 正在检索学术废料...</div>
+<div class="page-ctrl">
+    <button onclick="changePage(-1)" id="prev-btn">Prev</button>
+    <button onclick="changePage(1)" id="next-btn">Next</button>
+</div>
+
+<div class="section-title">Pit Index (PI) / 天坑指数论坛</div>
+<div id="forum-list">📡 正在同步全球怨种数据...</div>
+
+<dialog id="paper-modal">
+    <h2 id="modal-title"></h2>
+    <p id="modal-meta" style="font-style:italic; color:#666;"></p>
+    <div id="modal-content" style="white-space: pre-wrap; margin-top:20px; border-top:1px solid #000; padding-top:20px;"></div>
+    <button onclick="this.closest('dialog').close()" style="width:100%; margin-top:20px;">关闭窗口</button>
+</dialog>
+
+<script>
+    const supabaseUrl = 'https://lbuhtjezlkirkxbfgwvt.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxidWh0amV6bGtpcmt4YmZnd3Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1Mzk0OTksImV4cCI6MjA4ODExNTQ5OX0.dBP_u7PXyy9D_mCYGYDkDzvOArDBcQ6Qf8FO0wdO5lg';
+    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    let page = 0;
+    const size = 10;
+
+    // 1. 加载文献 (翻页+只显摘要)
+    async function loadPapers() {
+        const { data, count } = await _supabase.from('pit_papers').select('*', {count:'exact'}).order('created_at', {ascending:false}).range(page*size, (page+1)*size-1);
+        document.getElementById('page-num').innerText = page + 1;
+        document.getElementById('papers-list').innerHTML = data.map(p => `
+            <div class="paper-item">
+                <div class="paper-title" onclick='openPaper(${JSON.stringify(p).replace(/'/g, "&apos;")})'>📄 ${p.title}</div>
+                <div style="font-size:0.8rem; margin-top:5px;">Author: ${p.author}</div>
+                <div class="abstract"><strong>Abstract:</strong> ${p.abstract}</div>
+                <button onclick="likeItem('pit_papers', ${p.id}, ${p.likes})" style="padding:2px 8px; font-size:0.7rem;">👍 引用 (${p.likes})</button>
+            </div>
+        `).join('');
+        document.getElementById('prev-btn').disabled = page === 0;
+        document.getElementById('next-btn').disabled = (page + 1) * size >= count;
+    }
+
+    // 2. 加载天坑指数 (单列+热评+进度条)
+    async function loadForum() {
+        const { data: majors } = await _supabase.from('pit_forum').select('*').order('id');
+        const { data: comments } = await _supabase.from('pit_comments').select('*').order('likes', {ascending:false});
+        
+        document.getElementById('forum-list').innerHTML = majors.map(m => {
+            const top3 = comments.filter(c => c.major_id === m.id).slice(0, 3);
+            const percent = Math.min((m.count / 250) * 100, 100);
+            const hasJoined = localStorage.getItem('pit_join_' + m.id);
+            
+            return `
+                <div class="pit-card">
+                    <div style="font-size:1.2rem; font-weight:bold;">${m.name}</div>
+                    <div style="font-size:0.9rem;">天坑指数: <strong style="color:red;">-${m.count}</strong> / -250</div>
+                    <div class="prog-container"><div class="prog-bar" style="width:${percent}%"></div></div>
+                    
+                    <div id="comments-${m.id}">
+                        ${top3.map(c => `
+                            <div class="hot-comment">
+                                "${c.content}"
+                                <button onclick="likeItem('pit_comments', ${c.id}, ${c.likes})" style="float:right; background:none; color:#000; border:1px solid #000; padding:2px 5px; font-size:0.7rem;">👍 ${c.likes}</button>
+                                <div style="clear:both;"></div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <textarea id="msg-${m.id}" placeholder="输入你的破防语录..." ${hasJoined ? 'disabled' : ''}></textarea>
+                    <button onclick="joinPit('${m.id}', ${m.count})" style="width:100%; margin-top:10px;" ${hasJoined ? 'disabled' : ''}>
+                        🕳️ ${hasJoined ? '已在坑底' : '入坑'}
+                    </button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // 3. 核心交互
+    async function joinPit(id, cur) {
+        const val = document.getElementById('msg-' + id).value;
+        if(!val) return alert("请写下你的破防语录");
+        await _supabase.from('pit_comments').insert([{ major_id: id, content: val }]);
+        await _supabase.from('pit_forum').update({ count: cur + 1 }).eq('id', id);
+        localStorage.setItem('pit_join_' + id, 'true');
+        loadForum();
+    }
+
+    async function likeItem(table, id, cur) {
+        await _supabase.from(table).update({ likes: cur + 1 }).eq('id', id);
+        table === 'pit_papers' ? loadPapers() : loadForum();
+    }
+
+    function openPaper(p) {
+        document.getElementById('modal-title').innerText = p.title;
+        document.getElementById('modal-meta').innerText = `Author: ${p.author} | Published: ${p.created_at.split('T')[0]}`;
+        document.getElementById('modal-content').innerText = p.content;
+        document.getElementById('paper-modal').showModal();
+    }
+
+    function changePage(step) { page += step; loadPapers(); }
+
+    // 4. AI 废话生成 (示例逻辑)
+    function generateAI() {
+        const kw = document.getElementById('ai-kw').value || "科研";
+        const result = `【基于${kw}的范式重构研究】\n在当前学术生态位下，针对“${kw}”的非线性解构显示出显著的熵增特性。通过对${kw}过程中的碳基生物（即研究生）进行长达300天的实时观测，我们发现其精神内耗水平与${kw}的实验重复次数呈正相关关系。本研究创新性地提出“学术躺平”模型，证明了在${kw}领域，不作为往往是防止由于过度焦虑导致的基因序列崩溃的最优解。总之，${kw}不仅是一门技术，更是一门关于如何面对失败的生命美学。`;
+        document.getElementById('ai-result').innerText = result;
+        // 自动投递到文献库
+        _supabase.from('pit_papers').insert([{ title: `论${kw}的哲学内耗`, author: "PIT-AI", abstract: result.substring(0, 100), content: result }]);
+    }
+
+    window.onload = () => { loadPapers(); loadForum(); };
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIT: Journal of Professional Inutile Training</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
         :root { --main-color: #1c1c1c; --bg-color: #f4f4f2; --accent-red: #b22222; --accent-blue: #2c3e50; }
         body { font-family: "Times New Roman", Times, "Songti SC", serif; background-color: var(--bg-color); color: var(--main-color); max-width: 1200px; margin: 0 auto; padding: 20px; line-height: 1.7; }
         
