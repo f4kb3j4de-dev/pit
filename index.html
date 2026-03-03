@@ -8,140 +8,57 @@
         /* 构石 (The Stone) 专属视觉系统 */
         body {
             font-family: "Times New Roman", STSong, "SimSun", serif;
-            background-color: #f4f4f2; /* 石板灰/复古纸张底色 */
+            background-color: #f4f4f2; 
             color: #1c1c1c;
-            max-width: 1000px; /* 为了双列排版，稍微加宽一点 */
+            max-width: 1000px; 
             margin: 0 auto;
             padding: 50px 20px;
             line-height: 1.7;
         }
+        h1, h2, h3, h4 { font-weight: 700; letter-spacing: 0.5px; color: #111; }
+        .header-title { text-align: center; border-bottom: 4px solid #1c1c1c; padding-bottom: 20px; margin-bottom: 40px; }
+        a { color: #1c1c1c; text-decoration: none; transition: all 0.2s ease; }
+        a:hover { background-color: #e3e3e0; }
+        .nav { text-align: center; margin-bottom: 60px; font-size: 1.05rem; font-weight: bold; text-transform: uppercase; }
+        .nav a { margin: 0 15px; border-bottom: 1px solid #1c1c1c; padding-bottom: 2px; }
         
-        h1, h2, h3, h4 {
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #111;
-        }
-
-        /* 顶部标题特调：厚重感 */
-        .header-title {
-            text-align: center;
-            border-bottom: 4px solid #1c1c1c;
-            padding-bottom: 20px;
-            margin-bottom: 40px;
-        }
-
-        a {
-            color: #1c1c1c;
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: all 0.2s ease;
-        }
-        a:hover {
-            border-bottom: 1px solid #1c1c1c;
-            background-color: #e3e3e0;
-        }
-
-        .nav {
-            text-align: center;
-            margin-bottom: 60px;
-            font-size: 1.05rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .nav a {
-            margin: 0 15px;
-            border-bottom: 1px solid #1c1c1c;
-            padding-bottom: 2px;
-        }
-
-        /* 🚨 核心 Slogan 区域（超大字号，石碑雕刻框） */
         .hero {
-            text-align: center;
-            margin: 60px 0;
-            padding: 60px 20px; /* 增加内边距让框更大 */
-            border: 4px solid #1c1c1c; /* 加粗边框 */
-            background-color: #ebebe8;
-            box-shadow: 8px 8px 0px #1c1c1c; /* 更强的立体阴影 */
+            text-align: center; margin: 60px 0; padding: 60px 20px;
+            border: 4px solid #1c1c1c; background-color: #ebebe8; box-shadow: 8px 8px 0px #1c1c1c;
         }
-        .hero h2 {
-            font-size: 2.8rem; /* 英文 Slogan 字号拉满 */
-            margin: 0;
-            line-height: 1.2;
-            text-transform: uppercase;
-        }
-        .hero p {
-            font-size: 1.4rem; /* 中文 Slogan 字号拉满 */
-            color: #111;
-            margin-top: 20px;
-            font-weight: bold;
-            font-style: italic;
-        }
+        .hero h2 { font-size: 2.8rem; margin: 0; line-height: 1.2; text-transform: uppercase; }
+        .hero p { font-size: 1.4rem; color: #111; margin-top: 20px; font-weight: bold; font-style: italic; }
 
-        /* 🚨 双列排版核心结构 (左文章，右指数) */
-        .layout-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-top: 50px;
-        }
-        .main-col {
-            flex: 2; /* 左侧占 2 份宽度 */
-            min-width: 300px;
-        }
-        .side-col {
-            flex: 1; /* 右侧占 1 份宽度 */
-            min-width: 300px;
-            border-left: 2px solid #1c1c1c; /* 报纸风格的分割线 */
-            padding-left: 30px;
-        }
-
-        /* 手机端自动变为上下排列 */
+        .layout-wrapper { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 50px; }
+        .main-col { flex: 2; min-width: 300px; }
+        .side-col { flex: 1; min-width: 320px; border-left: 2px solid #1c1c1c; padding-left: 30px; }
         @media (max-width: 768px) {
-            .side-col {
-                border-left: none;
-                border-top: 4px solid #1c1c1c;
-                padding-left: 0;
-                padding-top: 40px;
-            }
+            .side-col { border-left: none; border-top: 4px solid #1c1c1c; padding-left: 0; padding-top: 40px; }
         }
 
-        .section-title {
-            border-top: 2px solid #1c1c1c;
-            border-bottom: 2px solid #1c1c1c;
-            padding: 10px 0;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .paper-item {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #ccc;
-        }
+        .section-title { border-top: 2px solid #1c1c1c; border-bottom: 2px solid #1c1c1c; padding: 10px 0; margin-bottom: 30px; text-transform: uppercase; }
+        
+        .paper-item { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #ccc; }
         .paper-title { font-size: 1.3rem; margin-bottom: 8px; }
         .paper-author { font-style: italic; font-size: 0.95rem; margin-top: 0; color: #555; }
-        .abstract {
-            font-size: 0.95rem;
-            margin-top: 15px;
-            padding: 15px;
-            background-color: #ebebe8;
-            border-left: 4px solid #1c1c1c;
-        }
+        .abstract { font-size: 0.95rem; margin-top: 15px; padding: 15px; background-color: #ebebe8; border-left: 4px solid #1c1c1c; }
 
-        .interactive-box {
-            margin: 40px 0;
-            padding: 20px;
-            border: 2px solid #1c1c1c;
-            background-color: #fafafa;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-        }
-        button {
-            padding: 10px 20px; background: #1c1c1c; color: #f4f4f2;
-            border: 1px solid #1c1c1c; font-weight: bold; cursor: pointer;
-            text-transform: uppercase; font-size: 0.85rem;
-        }
+        .interactive-box { margin: 40px 0; padding: 20px; border: 2px solid #1c1c1c; background-color: #fafafa; box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
+        button { padding: 8px 15px; background: #1c1c1c; color: #f4f4f2; border: 1px solid #1c1c1c; font-weight: bold; cursor: pointer; font-size: 0.85rem; font-family: "Times New Roman", STSong, serif;}
         button:hover { background: #f4f4f2; color: #1c1c1c; box-shadow: 2px 2px 0px #1c1c1c; }
-        input[type="text"] { border: 1px solid #1c1c1c; background-color: transparent; padding: 8px;}
+        input[type="text"], textarea { border: 1px solid #1c1c1c; background-color: #fff; padding: 8px; font-family: inherit; width: 100%; box-sizing: border-box;}
+
+        /* --- 论坛进度条专属样式 --- */
+        .forum-module {
+            border: 2px solid #1c1c1c; background-color: #ebebe8; padding: 15px; margin-bottom: 20px;
+            cursor: pointer; position: relative; transition: background 0.2s;
+        }
+        .forum-module:hover { background-color: #e0e0dd; }
+        .progress-container { width: 100%; height: 20px; border: 2px solid #1c1c1c; background: #fff; margin-top: 10px; position: relative; overflow: hidden; }
+        .progress-bar { height: 100%; background: #1c1c1c; transition: width 0.5s ease; }
+        .progress-text { position: absolute; top: 0; right: 5px; font-size: 0.8rem; font-weight: bold; color: #888; line-height: 20px;}
+        .comment-section { display: none; margin-top: 15px; border-top: 1px dashed #1c1c1c; padding-top: 15px; }
+        .comment-list { font-size: 0.9rem; color: #444; margin-bottom: 10px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -155,7 +72,7 @@
     <div class="nav">
         <a href="#home">Home / 流程主页</a>
         <a href="#current-issue">Current Issue / 最新文章</a>
-        <a href="#pit-index">Pit Index (PI) / 天坑指数</a>
+        <a href="#pit-index">Pit Index (PI) / 天坑论坛</a>
         <a href="#bottomless-pit">Bottomless Pit / 无底洞专区</a>
     </div>
 
@@ -194,77 +111,150 @@
             </div>
 
             <h2 id="bottomless-pit" class="section-title">Bottomless Pit / 无底洞专区</h2>
-            
-            <div style="margin-bottom: 30px;">
-                <p style="font-size: 1.1rem; font-weight: bold;">Your research is utterly useless? Perfect. Submit it now.</p>
-                <p style="font-size: 0.95rem; color: #444;">你的研究一无是处？太完美了，请立即投稿给审稿人：</p>
-                <a href="mailto:jpit_pit@163.com?subject=PIT Submission" 
-                   style="display: inline-block; padding: 10px 20px; background: #1c1c1c; color: white; margin-top: 10px; text-transform: uppercase; font-size: 0.85rem;">
-                   Throw into the Pit / 一键扔进坑 (jpit_pit@163.com)
-                </a>
-            </div>
-
             <div class="interactive-box">
                 <h3 style="margin-top: 0;">Abstract Generator / AI 废话生成器</h3>
                 <p style="font-size: 0.9rem; color: #555;">输入你的日常研究动作（如：刷试管、做PPT），一键生成装X摘要。</p>
-                <input type="text" id="bs-keyword" placeholder="Enter keyword (e.g., 画饼)" style="width: 50%;">
+                <input type="text" id="bs-keyword" placeholder="Enter keyword (e.g., 画饼)" style="width: 50%; display:inline-block; margin-right: 10px;">
                 <button onclick="generateBS()">Generate / 生成废话</button>
                 <div id="bs-output" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: #fff; min-height: 80px; font-style: italic;"></div>
             </div>
         </div>
 
         <div class="side-col">
-            <h2 id="pit-index" class="section-title" style="margin-top: 0;">Pit Index (PI) / 天坑指数</h2>
+            <h2 id="pit-index" class="section-title" style="margin-top: 0;">Pit Index / 天坑论坛</h2>
             
-            <div style="font-size: 0.95rem; line-height: 1.7;">
-                <p style="margin-top:0;">
-                    <strong>The Pit Index loosely tracks how deeply researchers are trapped in four traditional “bottomless” disciplines.</strong><br>
-                    <span style="color: #555; font-style: italic;">天坑指数用于粗略刻画研究者在四大传统“无底深渊”中的下潜深度。</span>
-                </p>
+            <p style="font-size: 0.9rem; color: #444; line-height: 1.5; margin-bottom: 20px;">
+                <strong>Descent Progress: 0 to -250.</strong><br>
+                每增加一条评论记录，该专业的坑深就下潜 1 点。满级 -250 点代表该学科已达绝对虚无。点击模块进行学术发疯：
+            </p>
 
-                <ul style="padding-left: 20px; list-style-type: square;">
-                    <li style="margin-bottom: 25px;">
-                        <strong style="font-size: 1.1rem; color: #111;">Biochemistry / 生物化学：178%</strong><br>
-                        Most projects are 3 years over schedule and 0 papers over baseline.<br>
-                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">生化：178% —— 平均延期三年，成果超额为零。</span>
-                    </li>
-                    <li style="margin-bottom: 25px;">
-                        <strong style="font-size: 1.1rem; color: #111;">Chemical Engineering / 化学工程：204%</strong><br>
-                        80% of simulations never reach convergence, the rest are never validated.<br>
-                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">化工：204% —— 80% 的模拟永不收敛，其余从未验证。</span>
-                    </li>
-                    <li style="margin-bottom: 25px;">
-                        <strong style="font-size: 1.1rem; color: #111;">Environmental Science / 环境科学：193%</strong><br>
-                        95% of sensors are “under maintenance” when pollution peaks.<br>
-                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">环科：193% —— 污染峰值时，95% 传感器“正在维护中”。</span>
-                    </li>
-                    <li style="margin-bottom: 25px;">
-                        <strong style="font-size: 1.1rem; color: #111;">Materials Science / 材料科学：221%</strong><br>
-                        Infinite phase diagrams, finite applications.<br>
-                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">材料：221% —— 相图无穷无尽，应用寥寥无几。</span>
-                    </li>
-                </ul>
+            <div id="forum-container"></div>
+
+            <div style="border: 2px dashed #1c1c1c; padding: 15px; margin-top: 30px;">
+                <h4 style="margin-top: 0; margin-bottom: 10px;">Propose a New Pit / 申报新专业</h4>
+                <input type="text" id="new-major-input" placeholder="e.g., 土木工程 (Civil Eng)" style="margin-bottom: 10px;">
+                <button onclick="proposeMajor()" style="width: 100%;">Submit for Approval / 提交审批</button>
             </div>
         </div>
         
     </div>
+
     <div style="text-align: center; margin-top: 80px; font-size: 0.8rem; color: #666; border-top: 2px solid #1c1c1c; padding-top: 20px;">
         <p>Copyright © 2026 PIT. Public Domain - 毕竟没人会偷这些垃圾想法。</p>
     </div>
 
     <script>
+        /* ================= 废话生成器 ================= */
         const templates = [
             { en: "Based on the multi-modal cross-contextual reconstruction of [X], this study demonstrates the inevitability of entropy increase in closed systems.", zh: "基于多模态交叉语境下的【[X]】重构与解构，本研究证实了其在封闭系统中的熵增必然性。" },
             { en: "By analyzing the quantum entanglement state during [X], we successfully reduced the experimental yield to absolute zero.", zh: "通过深入分析【[X]】过程中的量子纠缠态，我们将实验产率精准控制在绝对零度。" }
         ];
-
         function generateBS() {
             const keyword = document.getElementById('bs-keyword').value || "天坑";
             const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
-            const enText = randomTemplate.en.replace(/\[X\]/g, keyword);
-            const zhText = randomTemplate.zh.replace(/\[X\]/g, keyword);
-            document.getElementById('bs-output').innerHTML = `<strong style="color: #000;">EN:</strong> ${enText}<br><br><strong style="color: #000;">中文:</strong> ${zhText}`;
+            document.getElementById('bs-output').innerHTML = `<strong style="color: #000;">EN:</strong> ${randomTemplate.en.replace(/\[X\]/g, keyword)}<br><br><strong style="color: #000;">中文:</strong> ${randomTemplate.zh.replace(/\[X\]/g, keyword)}`;
         }
+
+        /* ================= 天坑论坛交互逻辑 ================= */
+        
+        // 初始数据：带有预设吐槽数，营造气氛
+        const defaultForumData = {
+            bio: { name: '生物 (Biology)', count: 178, myComment: '' },
+            chem: { name: '化学 (Chemistry)', count: 204, myComment: '' },
+            mat: { name: '材料 (Materials)', count: 221, myComment: '' },
+            agr: { name: '农业 (Agriculture)', count: 120, myComment: '' }
+        };
+
+        // 从本地读取数据
+        let forumData = JSON.parse(localStorage.getItem('pit_forum_data')) || defaultForumData;
+
+        function renderForum() {
+            const container = document.getElementById('forum-container');
+            container.innerHTML = '';
+
+            for (const [id, data] of Object.entries(forumData)) {
+                const progressPercent = (data.count / 250) * 100;
+                // 如果用户已经评过论，显示更新按钮
+                const hasCommented = data.myComment !== '';
+                
+                container.innerHTML += `
+                    <div class="forum-module" onclick="toggleComment('${id}')" id="module_${id}">
+                        <div style="font-weight: bold; font-size: 1.1rem;">${data.name}</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Current Score: <strong style="color: #8b0000;">-${data.count}</strong> / -250</div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${progressPercent}%;"></div>
+                        </div>
+
+                        <div class="comment-section" id="comment_${id}" onclick="event.stopPropagation()">
+                            <div class="comment-list">
+                                > [Archived Logs] 已有 ${data.count - (hasCommented ? 1 : 0)} 名匿名怨种留下了电子眼泪。<br>
+                                ${hasCommented ? `<strong style="color:#000;">> Your Log:</strong> ${data.myComment}` : ''}
+                            </div>
+                            <textarea id="input_${id}" rows="2" placeholder="Leave your misery here (限留一条)......">${data.myComment}</textarea>
+                            <button onclick="submitComment('${id}')" style="margin-top: 5px;">
+                                ${hasCommented ? 'Update Log / 修改遗言' : 'Commit / 坠落 -1'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleComment(id) {
+            const section = document.getElementById(`comment_${id}`);
+            // 简单的展开收起逻辑
+            if (section.style.display === 'block') {
+                section.style.display = 'none';
+            } else {
+                section.style.display = 'block';
+            }
+        }
+
+        function submitComment(id) {
+            const textarea = document.getElementById(`input_${id}`);
+            const text = textarea.value.trim();
+            
+            if (!text) {
+                alert("科研可以水，但遗言不能空！");
+                return;
+            }
+
+            const isNewComment = (forumData[id].myComment === '');
+            
+            // 更新用户的评论
+            forumData[id].myComment = text;
+            
+            // 如果是第一次评论，且还没到底，分数就 -1 (数字 count +1)
+            if (isNewComment && forumData[id].count < 250) {
+                forumData[id].count += 1;
+            }
+
+            // 保存到本地并重新渲染
+            localStorage.setItem('pit_forum_data', JSON.stringify(forumData));
+            renderForum();
+            
+            // 自动触发展开
+            setTimeout(() => {
+                document.getElementById(`comment_${id}`).style.display = 'block';
+            }, 50);
+        }
+
+        // 模拟申报新专业的伪交互
+        function proposeMajor() {
+            const val = document.getElementById('new-major-input').value.trim();
+            if (!val) {
+                alert("请输入专业名称！");
+                return;
+            }
+            alert(`您的申请【${val}】已提交至审稿委员会。\n\n当前状态：Pending (排队中)\n预计审核通过时间：您的导师同意您毕业的那一天。`);
+            document.getElementById('new-major-input').value = '';
+        }
+
+        // 初始化
+        window.onload = function() {
+            renderForum();
+        };
     </script>
 </body>
 </html>
