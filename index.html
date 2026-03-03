@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>PIT: Journal of Professional Inutile Training (天坑专业收容所)</title>
- <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIT: Journal of Professional Inutile Training</title>
+    <style>
         /* 构石 (The Stone) 专属视觉系统 */
         body {
-            font-family: "Times New Roman", STSong, "SimSun", serif; /* 强化传统印刷体 */
-            background-color: #f4f4f2; /* 石板灰/复古纸张底色，不再是刺眼的纯白 */
-            color: #1c1c1c; /* 墨黑，比纯黑更有质感 */
-            max-width: 850px;
+            font-family: "Times New Roman", STSong, "SimSun", serif;
+            background-color: #f4f4f2; /* 石板灰/复古纸张底色 */
+            color: #1c1c1c;
+            max-width: 1000px; /* 为了双列排版，稍微加宽一点 */
             margin: 0 auto;
             padding: 50px 20px;
             line-height: 1.7;
@@ -17,14 +18,14 @@
         
         h1, h2, h3, h4 {
             font-weight: 700;
-            letter-spacing: 0.5px; /* 增加一点字间距，产生碑刻感 */
+            letter-spacing: 0.5px;
             color: #111;
         }
 
-        /* 顶部标题特调：产生类似期刊封面的厚重感 */
+        /* 顶部标题特调：厚重感 */
         .header-title {
             text-align: center;
-            border-bottom: 4px solid #1c1c1c; /* 极粗的底线 */
+            border-bottom: 4px solid #1c1c1c;
             padding-bottom: 20px;
             margin-bottom: 40px;
         }
@@ -37,16 +38,15 @@
         }
         a:hover {
             border-bottom: 1px solid #1c1c1c;
-            background-color: #e3e3e0; /* 鼠标悬停时出现浅石块色 */
+            background-color: #e3e3e0;
         }
 
-        /* 导航栏排版优化 */
         .nav {
             text-align: center;
             margin-bottom: 60px;
             font-size: 1.05rem;
             font-weight: bold;
-            text-transform: uppercase; /* 英文全大写，更有学术感 */
+            text-transform: uppercase;
         }
         .nav a {
             margin: 0 15px;
@@ -54,331 +54,217 @@
             padding-bottom: 2px;
         }
 
-        /* 核心 Slogan 区域（模仿石碑雕刻框） */
+        /* 🚨 核心 Slogan 区域（超大字号，石碑雕刻框） */
         .hero {
             text-align: center;
             margin: 60px 0;
-            padding: 50px 20px;
-            border: 2px solid #1c1c1c; /* 粗实线边框 */
-            background-color: #ebebe8; /* 框内稍微加深一点 */
-            box-shadow: 4px 4px 0px #1c1c1c; /* 产生硬朗的立体阴影感 */
+            padding: 60px 20px; /* 增加内边距让框更大 */
+            border: 4px solid #1c1c1c; /* 加粗边框 */
+            background-color: #ebebe8;
+            box-shadow: 8px 8px 0px #1c1c1c; /* 更强的立体阴影 */
         }
         .hero h2 {
-            font-size: 1.9rem;
+            font-size: 2.8rem; /* 英文 Slogan 字号拉满 */
             margin: 0;
+            line-height: 1.2;
+            text-transform: uppercase;
         }
         .hero p {
-            font-size: 1.1rem;
-            color: #444;
-            margin-top: 15px;
+            font-size: 1.4rem; /* 中文 Slogan 字号拉满 */
+            color: #111;
+            margin-top: 20px;
+            font-weight: bold;
             font-style: italic;
         }
 
-        /* 栏目标题（双粗线修饰） */
+        /* 🚨 双列排版核心结构 (左文章，右指数) */
+        .layout-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 50px;
+        }
+        .main-col {
+            flex: 2; /* 左侧占 2 份宽度 */
+            min-width: 300px;
+        }
+        .side-col {
+            flex: 1; /* 右侧占 1 份宽度 */
+            min-width: 300px;
+            border-left: 2px solid #1c1c1c; /* 报纸风格的分割线 */
+            padding-left: 30px;
+        }
+
+        /* 手机端自动变为上下排列 */
+        @media (max-width: 768px) {
+            .side-col {
+                border-left: none;
+                border-top: 4px solid #1c1c1c;
+                padding-left: 0;
+                padding-top: 40px;
+            }
+        }
+
         .section-title {
             border-top: 2px solid #1c1c1c;
             border-bottom: 2px solid #1c1c1c;
             padding: 10px 0;
-            margin-top: 60px;
             margin-bottom: 30px;
             text-transform: uppercase;
         }
 
-        /* 论文列表的边框从虚线改为实线 */
         .paper-item {
             margin-bottom: 40px;
             padding-bottom: 20px;
             border-bottom: 1px solid #ccc;
         }
-        .paper-title {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-        .paper-author {
-            font-style: italic;
-            font-size: 0.95rem;
-            margin-top: 0;
-            color: #555;
-        }
+        .paper-title { font-size: 1.3rem; margin-bottom: 8px; }
+        .paper-author { font-style: italic; font-size: 0.95rem; margin-top: 0; color: #555; }
         .abstract {
             font-size: 0.95rem;
             margin-top: 15px;
             padding: 15px;
-            background-color: #ebebe8; /* 摘要背景加上浅灰色块 */
-            border-left: 4px solid #1c1c1c; /* 左侧加粗墨线 */
+            background-color: #ebebe8;
+            border-left: 4px solid #1c1c1c;
         }
 
-        /* 互动区域（评分和生成器） */
         .interactive-box {
             margin: 40px 0;
-            padding: 30px;
+            padding: 20px;
             border: 2px solid #1c1c1c;
             background-color: #fafafa;
             box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
         }
-        
-        input, textarea, button {
-            font-family: "Times New Roman", STSong, "SimSun", serif;
-        }
-        
-        /* 构石风格按钮：黑底白字，四方四正 */
         button {
-            padding: 10px 20px;
-            background: #1c1c1c;
-            color: #f4f4f2;
-            border: 1px solid #1c1c1c;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            font-size: 0.85rem;
+            padding: 10px 20px; background: #1c1c1c; color: #f4f4f2;
+            border: 1px solid #1c1c1c; font-weight: bold; cursor: pointer;
+            text-transform: uppercase; font-size: 0.85rem;
         }
-        button:hover {
-            background: #f4f4f2;
-            color: #1c1c1c;
-            box-shadow: 2px 2px 0px #1c1c1c;
-        }
-        button:disabled {
-            background: #aaa;
-            border-color: #aaa;
-            color: #fff;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        /* 输入框的复古感 */
-        input[type="text"], textarea {
-            border: 1px solid #1c1c1c;
-            background-color: transparent;
-            border-radius: 0; /* 去掉圆角 */
-        }
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            background-color: #fff;
-            border-width: 2px;
-        }
+        button:hover { background: #f4f4f2; color: #1c1c1c; box-shadow: 2px 2px 0px #1c1c1c; }
+        input[type="text"] { border: 1px solid #1c1c1c; background-color: transparent; padding: 8px;}
     </style>
 </head>
 <body>
-<div class="header-title">
-    <h1 style="font-size: 2.5rem; margin-bottom: 5px;">PIT: Journal of Professional Inutile Training</h1>
-    <p style="margin-top: 0; font-size: 1.1rem;">PIT: 天坑专业收容所</p>
-    <p style="font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">ISSN 0000-0250 | Est. 2026 | The Stone Zone</p>
-</div>
-      <nav class="nav">
+
+    <div class="header-title">
+        <h1 style="font-size: 2.8rem; margin-bottom: 5px;">PIT: Journal of Professional Inutile Training</h1>
+        <p style="margin-top: 0; font-size: 1.2rem; font-weight: bold;">PIT: 天坑专业收容所</p>
+        <p style="font-size: 0.85rem; color: #444; text-transform: uppercase; letter-spacing: 1px;">ISSN 0000-0250 | Est. 2026 | The Stone Zone</p>
+    </div>
+
+    <div class="nav">
         <a href="#home">Home / 流程主页</a>
         <a href="#current-issue">Current Issue / 最新文章</a>
         <a href="#pit-index">Pit Index (PI) / 天坑指数</a>
         <a href="#bottomless-pit">Bottomless Pit / 无底洞专区</a>
-      </nav>
-    </header>
-
-    <div class="hero">
-      <div class="hero-main">
-        Focusing on Research That Changes Absolutely Nothing.
-      </div>
-      <div class="hero-sub">
-        既然深陷坑底，不如挖得更有创意——极致的无用之美。
-      </div>
     </div>
 
-    <div class="two-column">
-      <main>
-        <!-- Current Issue -->
-        <section id="current-issue">
-          <h2>Current Issue / 最新文章</h2>
-
-          <div class="article">
-            <div class="article-header">
-              [Vol. 1, No. 1]
-              <span class="article-title">Reversible Photodegradation of Fluorescent Markers on Unread Lab Notebooks</span>
-              &nbsp;-&nbsp;
-              <span class="article-author">L. Biochemist &amp; Y. Archivist</span>
-              &nbsp;(2026)
-            </div>
-            <div class="article-abstract-label">Abstract (EN).</div>
-            <div class="article-abstract">
-              We investigate the long-term stability of fluorescent markers applied to
-              biochemical lab notebooks that are never opened again after the experiment.
-              By exposing the closed notebooks to controlled daylight cycles, we show
-              that photodegradation of the ink proceeds independently of scientific impact.
-              Our results confirm that, even in complete academic obscurity, entropy
-              proceeds at a respectable pace.
-            </div>
-            <div class="article-abstract-label">摘要 (ZH)。</div>
-            <div class="article-abstract">
-              本文系统研究了荧光记号笔在“再也不会被翻开的实验记录本”上的长期光降解行为。
-              我们在严格控制光照周期的条件下，对整本密封的生化实验本进行暴晒，发现墨水褪色速率
-              与实验本身的学术影响力毫无关系。结果表明，即便在彻底无人问津的学术角落中，熵增也依然
-              勤勤恳恳地开展工作。
-            </div>
-          </div>
-
-          <div class="article">
-            <div class="article-header">
-              [Vol. 1, No. 1]
-              <span class="article-title">Closed-Circuit Wastewater Recycling for Infinite Lab Dishwashing</span>
-              &nbsp;-&nbsp;
-              <span class="article-author">Q. Environmentalist &amp; Z. Technician</span>
-              &nbsp;(2026)
-            </div>
-            <div class="article-abstract-label">Abstract (EN).</div>
-            <div class="article-abstract">
-              This work designs a closed-circuit wastewater system dedicated to the
-              perpetual washing of glassware used in low-impact environmental experiments.
-              Using a combination of over-engineered filters and under-documented valves,
-              we achieve infinite dishwashing cycles with no visible improvement in
-              experimental outcomes. The system successfully demonstrates how resource
-              conservation can coexist with complete scientific irrelevance.
-            </div>
-            <div class="article-abstract-label">摘要 (ZH)。</div>
-            <div class="article-abstract">
-              本研究搭建了一套专门用于“低影响环境实验玻璃器皿”无限循环清洗的封闭式废水系统。
-              通过过度复杂的滤芯与说明书缺失的阀门组合，我们实现了看似永动的刷试管流程，
-              却没有在任何实验结果上观察到可量化的提升。该系统成功示范了：在科研几乎毫无意义的前提下，
-              资源节约依然可以被过度设计到极致。
-            </div>
-          </div>
-
-          <div class="article">
-            <div class="article-header">
-              [Vol. 1, No. 1]
-              <span class="article-title">Finite-Element Simulation of Cracking in Decorative Concrete That Nobody Walks On</span>
-              &nbsp;-&nbsp;
-              <span class="article-author">M. Materials &amp; R. Modeler</span>
-              &nbsp;(2026)
-            </div>
-            <div class="article-abstract-label">Abstract (EN).</div>
-            <div class="article-abstract">
-              We present a high-resolution finite-element model of crack initiation and
-              propagation in decorative concrete panels installed in a restricted rooftop
-              garden with no public access. The simulations accurately reproduce the
-              micro-cracking patterns observed under rare maintenance visits while having
-              zero implications for structural safety. Our findings suggest that numerical
-              methods can be exquisitely precise even when the underlying problem does
-              not matter at all.
-            </div>
-            <div class="article-abstract-label">摘要 (ZH)。</div>
-            <div class="article-abstract">
-              本文构建了一个高精度有限元模型，用于模拟安装在“禁止入内的楼顶花园”中的装饰混凝土板
-              的裂纹起始与扩展行为。模型成功重现了仅在偶尔检修时才被发现的微裂纹形貌，
-              却对任何结构安全评估不构成实质影响。结果说明：即便研究对象对现实世界毫无关系，
-              数值分析仍可追求到近乎苛刻的精确程度。
-            </div>
-          </div>
-        </section>
-
-        <!-- Bottomless Pit & Generator -->
-        <section id="bottomless-pit">
-          <h2>Bottomless Pit / 无底洞专区</h2>
-          <div class="bottomless">
-            <p>
-              Please send your utterly valueless manuscripts to our reviewers at:<br>
-              请将您毫无价值的论文发送至本刊审稿人邮箱：
-              <strong>jpit_pit@163.com</strong>
-            </p>
-            <a href="mailto:jpit_pit@163.com" class="pit-button">
-              Throw into the Pit / 一键扔进坑
-            </a>
-
-            <div class="generator">
-              <div class="generator-label">
-                AI Abstract Generator / AI 学术废话生成器
-              </div>
-              <div class="generator-input-row">
-                <input
-                  id="keyword-input"
-                  class="generator-input"
-                  type="text"
-                  placeholder="Enter your keyword (e.g., 画饼) / 输入你的天坑关键词"
-                >
-                <button class="generator-button" onclick="generateBullshit()">
-                  Generate Bullshit / 生成学术废话
-                </button>
-              </div>
-              <div id="generator-output" class="generator-output">
-                <!-- Generated abstract will appear here / 生成的中英双语废话将显示在此处 -->
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <!-- Pit Index -->
-      <aside id="pit-index">
-        <section>
-          <h2>Pit Index (PI) / 天坑指数</h2>
-          <div class="pit-index-block">
-            <div class="impact">
-              Current Impact Factor (IF): -250.0<br>
-              当前影响因子：-250.0
-            </div>
-            <div>
-              The Pit Index loosely tracks how deeply researchers are trapped in
-              four traditional “bottomless” disciplines.<br>
-              天坑指数用于粗略刻画研究者在四大传统“无底深渊”中的下潜深度。
-            </div>
-            <ul>
-              <li>
-                Biochemistry / 生物化学：178% — Most projects are 3 years over schedule
-                and 0 papers over baseline.<br>
-                生化：178% —— 平均延期三年，成果超额为零。
-              </li>
-              <li>
-                Chemical Engineering / 化学工程：204% — 80% of simulations never reach
-                convergence, the rest are never validated.<br>
-                化工：204% —— 80% 的模拟永不收敛，其余从未验证。
-              </li>
-              <li>
-                Environmental Science / 环境科学：193% — 95% of sensors are “under maintenance”
-                when pollution peaks.<br>
-                环科：193% —— 污染峰值时，95% 传感器“正在维护中”。
-              </li>
-              <li>
-                Materials Science / 材料科学：221% — Infinite phase diagrams, finite
-                applications.<br>
-                材料：221% —— 相图无穷无尽，应用寥寥无几。
-              </li>
-            </ul>
-          </div>
-        </section>
-      </aside>
+    <div id="home" class="hero">
+        <h2>Focusing on Research That Changes Absolutely Nothing.</h2>
+        <p>既然深陷坑底，不如挖得更有创意——极致的无用之美。</p>
     </div>
 
-    <footer>
-      PIT: Journal of Professional Inutile Training (天坑专业收容所).<br>
-      A bottomless archive for carefully executed, fundamentally unnecessary research. /
-      本刊专注于精心完成、原则上无用的各类研究，欢迎继续下潜。
-    </footer>
-  </div>
+    <div class="layout-wrapper">
+        
+        <div class="main-col">
+            <h2 id="current-issue" class="section-title" style="margin-top: 0;">Current Issue / 最新文章</h2>
+            
+            <div class="paper-item">
+                <h3 class="paper-title">
+                    Investigation on "Air-Painted Pie" Visualization in Bio-Chem-Env-Mat Context<br>
+                    <span style="font-weight: normal; color: #555;">(基于生化环材多学科交叉背景下“空气画饼”的可视化表征研究)</span>
+                </h3>
+                <p class="paper-author">Author: Ghost of Lab / 实验室幽灵 (2026)</p>
+                <div class="abstract">
+                    <strong>Abstract:</strong> This paper systematically investigates the propagation characteristics of acoustic waves generated by advisors during group meetings...<br>
+                    <strong>摘要：</strong> 本文系统研究了导师在组会上产生的“画饼”声波在真空环境下的传播特性。通过计算流体力学模拟发现，其诱导的心理期望值与实际经费拨付率成反比 ($E \propto 1/F$)。
+                </div>
+            </div>
 
-  <script>
-    function generateBullshit() {
-      var input = document.getElementById("keyword-input");
-      var output = document.getElementById("generator-output");
-      var kw = (input.value || "PIT").trim();
-      if (!kw) kw = "PIT";
+            <div class="paper-item">
+                <h3 class="paper-title">
+                    A Prayer Algorithm for Automatic Cleaning of Stubborn Sediments in 500mL Flasks<br>
+                    <span style="font-weight: normal; color: #555;">(一种用于自动清洗实验室 500mL 烧瓶底部顽固沉淀的祈祷算法)</span>
+                </h3>
+                <p class="paper-author">Author: Sleepless Washer / 熬夜洗瓶工 (2026)</p>
+                <div class="abstract">
+                    <strong>Abstract:</strong> Addressing the non-Newtonian fluid wall-hanging problem in chemical synthesis, this study develops a prayer model based on quantum probability.<br>
+                    <strong>摘要：</strong> 针对化学合成中产生的非牛顿流体挂壁问题，本文放弃了物理刷洗，转而开发了一套基于量子概率的祈祷模型。在闭眼默念3遍“出数据”后，沉淀物脱落概率提升了0.0001%。
+                </div>
+            </div>
 
-      var templatesZH = [
-        "基于多模态交叉语境下的「{kw}」重构与底层逻辑解构，本研究系统证实了「{kw}」在封闭系统中的熵增必然性，为毫无意义的内卷提供了全新的理论支撑。",
-        "本文从宏观叙事与微观机理双重维度，对「{kw}」在复杂实验室生态中的非线性演化路径进行了过度精细的建模。结果表明：「{kw}」虽不产生任何可见产出，却极大丰富了研究生的加班体验。"
-      ];
+            <h2 id="bottomless-pit" class="section-title">Bottomless Pit / 无底洞专区</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <p style="font-size: 1.1rem; font-weight: bold;">Your research is utterly useless? Perfect. Submit it now.</p>
+                <p style="font-size: 0.95rem; color: #444;">你的研究一无是处？太完美了，请立即投稿给审稿人：</p>
+                <a href="mailto:jpit_pit@163.com?subject=PIT Submission" 
+                   style="display: inline-block; padding: 10px 20px; background: #1c1c1c; color: white; margin-top: 10px; text-transform: uppercase; font-size: 0.85rem;">
+                   Throw into the Pit / 一键扔进坑 (jpit_pit@163.com)
+                </a>
+            </div>
 
-      var templatesEN = [
-        "By situating \"{kw}\" within a multi-layered, cross-modal framework, this study rigorously demonstrates the inevitability of entropy increase in fully closed academic systems, thereby offering a fresh theoretical foundation for entirely pointless competition.",
-        "We develop an excessively detailed model of \"{kw}\" as it evolves in a cluttered laboratory environment, showing that while no measurable output is produced, the subjective workload of graduate students increases to statistically significant levels."
-      ];
+            <div class="interactive-box">
+                <h3 style="margin-top: 0;">Abstract Generator / AI 废话生成器</h3>
+                <p style="font-size: 0.9rem; color: #555;">输入你的日常研究动作（如：刷试管、做PPT），一键生成装X摘要。</p>
+                <input type="text" id="bs-keyword" placeholder="Enter keyword (e.g., 画饼)" style="width: 50%;">
+                <button onclick="generateBS()">Generate / 生成废话</button>
+                <div id="bs-output" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: #fff; min-height: 80px; font-style: italic;"></div>
+            </div>
+        </div>
 
-      function pick(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-      }
+        <div class="side-col">
+            <h2 id="pit-index" class="section-title" style="margin-top: 0;">Pit Index (PI) / 天坑指数</h2>
+            
+            <div style="font-size: 0.95rem; line-height: 1.7;">
+                <p style="margin-top:0;">
+                    <strong>The Pit Index loosely tracks how deeply researchers are trapped in four traditional “bottomless” disciplines.</strong><br>
+                    <span style="color: #555; font-style: italic;">天坑指数用于粗略刻画研究者在四大传统“无底深渊”中的下潜深度。</span>
+                </p>
 
-      var zh = pick(templatesZH).replace(/{kw}/g, kw);
-      var en = pick(templatesEN).replace(/{kw}/g, kw);
+                <ul style="padding-left: 20px; list-style-type: square;">
+                    <li style="margin-bottom: 25px;">
+                        <strong style="font-size: 1.1rem; color: #111;">Biochemistry / 生物化学：178%</strong><br>
+                        Most projects are 3 years over schedule and 0 papers over baseline.<br>
+                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">生化：178% —— 平均延期三年，成果超额为零。</span>
+                    </li>
+                    <li style="margin-bottom: 25px;">
+                        <strong style="font-size: 1.1rem; color: #111;">Chemical Engineering / 化学工程：204%</strong><br>
+                        80% of simulations never reach convergence, the rest are never validated.<br>
+                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">化工：204% —— 80% 的模拟永不收敛，其余从未验证。</span>
+                    </li>
+                    <li style="margin-bottom: 25px;">
+                        <strong style="font-size: 1.1rem; color: #111;">Environmental Science / 环境科学：193%</strong><br>
+                        95% of sensors are “under maintenance” when pollution peaks.<br>
+                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">环科：193% —— 污染峰值时，95% 传感器“正在维护中”。</span>
+                    </li>
+                    <li style="margin-bottom: 25px;">
+                        <strong style="font-size: 1.1rem; color: #111;">Materials Science / 材料科学：221%</strong><br>
+                        Infinite phase diagrams, finite applications.<br>
+                        <span style="color: #555; font-style: italic; font-size: 0.9rem;">材料：221% —— 相图无穷无尽，应用寥寥无几。</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    <div style="text-align: center; margin-top: 80px; font-size: 0.8rem; color: #666; border-top: 2px solid #1c1c1c; padding-top: 20px;">
+        <p>Copyright © 2026 PIT. Public Domain - 毕竟没人会偷这些垃圾想法。</p>
+    </div>
 
-      var text = "EN Abstract:\n" + en + "\n\nZH 摘要：\n" + zh;
-      output.textContent = text;
-    }
-  </script>
+    <script>
+        const templates = [
+            { en: "Based on the multi-modal cross-contextual reconstruction of [X], this study demonstrates the inevitability of entropy increase in closed systems.", zh: "基于多模态交叉语境下的【[X]】重构与解构，本研究证实了其在封闭系统中的熵增必然性。" },
+            { en: "By analyzing the quantum entanglement state during [X], we successfully reduced the experimental yield to absolute zero.", zh: "通过深入分析【[X]】过程中的量子纠缠态，我们将实验产率精准控制在绝对零度。" }
+        ];
+
+        function generateBS() {
+            const keyword = document.getElementById('bs-keyword').value || "天坑";
+            const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
+            const enText = randomTemplate.en.replace(/\[X\]/g, keyword);
+            const zhText = randomTemplate.zh.replace(/\[X\]/g, keyword);
+            document.getElementById('bs-output').innerHTML = `<strong style="color: #000;">EN:</strong> ${enText}<br><br><strong style="color: #000;">中文:</strong> ${zhText}`;
+        }
+    </script>
 </body>
 </html>
