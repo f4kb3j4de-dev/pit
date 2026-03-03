@@ -6,104 +6,156 @@
     <title>PIT: Journal of Professional Inutile Training</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root { --main-color: #1a1a1a; --bg-color: #fdfdfb; --accent-red: #d32f2f; }
-        body { font-family: "Times New Roman", Times, "SimSun", serif; background-color: var(--bg-color); color: var(--main-color); max-width: 1100px; margin: 0 auto; padding: 20px; line-height: 1.6; font-size: 14px; }
+        :root { 
+            --main-color: #1c1c1c; 
+            --bg-color: #f4f4f2; 
+            --accent-red: #b22222; 
+            --card-bg: #ffffff;
+        }
         
-        /* 刊头 */
-        .header { text-align: center; border-bottom: 4px double #000; padding-bottom: 15px; margin-bottom: 25px; }
-        .header h1 { font-size: 2.8rem; margin: 0; font-weight: 900; letter-spacing: -1px; }
-        .issn { font-size: 0.8rem; letter-spacing: 2px; color: #555; }
+        body { 
+            font-family: "Times New Roman", Times, "Songti SC", "SimSun", serif; 
+            background-color: var(--bg-color); 
+            color: var(--main-color); 
+            max-width: 1300px; 
+            margin: 0 auto; 
+            padding: 30px; 
+            line-height: 1.8;
+            font-size: 1.15rem;
+        }
+        
+        .header { text-align: center; border-bottom: 6px double var(--main-color); padding-bottom: 30px; margin-bottom: 40px; }
+        .header h1 { font-size: 4rem; margin: 0; font-weight: 900; letter-spacing: -2px; }
+        .header p { font-size: 1.1rem; letter-spacing: 4px; text-transform: uppercase; margin-top: 10px; }
 
-        /* Slogan */
-        .slogan-container { text-align: center; margin: 30px 0; padding: 15px; border: 1px solid #eee; }
-        .slogan-en { font-size: 1.4rem; font-weight: 800; margin-bottom: 5px; }
-        .slogan-cn { font-size: 1.6rem; font-weight: 900; color: #000; margin: 0; }
+        .slogan-box { text-align: center; margin: 60px 0; padding: 40px; border: 1px solid #ddd; background: #fff; }
+        .slogan-en { font-size: 2.2rem; font-weight: 800; margin: 0; display: block; line-height: 1.2; }
+        .slogan-cn { font-size: 2.8rem; font-weight: 900; margin: 20px 0 0 0; color: #000; display: block; }
 
-        /* 布局 */
-        .layout { display: flex; flex-wrap: wrap; gap: 30px; }
-        .main-col { flex: 2; min-width: 350px; }
-        .side-col { flex: 1.1; min-width: 300px; border-left: 1px solid #ddd; padding-left: 25px; }
+        .nav { text-align: center; margin-bottom: 50px; font-weight: bold; border-bottom: 2px solid #000; padding-bottom: 15px; font-size: 1.2rem; }
+        .nav a { margin: 0 20px; text-decoration: none; color: var(--main-color); transition: 0.3s; }
+        .nav a:hover { color: var(--accent-red); border-bottom: 2px solid var(--accent-red); }
 
-        .section-title { background: #000; color: #fff; padding: 6px 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .section-title h2 { margin: 0; font-size: 1rem; letter-spacing: 1px; }
+        .layout { display: flex; flex-wrap: wrap; gap: 40px; }
+        .main-col { flex: 2; min-width: 400px; }
+        .side-col { flex: 1.2; min-width: 350px; border-left: 3px solid var(--main-color); padding-left: 35px; }
 
-        /* 文献卡片 */
-        .paper-item { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; position: relative; }
-        .paper-title { font-size: 1.2rem; font-weight: bold; color: #000; text-decoration: none; display: block; margin-bottom: 5px; cursor: pointer; }
+        .section-title { background: #000; color: #fff; padding: 12px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .section-title h2 { margin: 0; font-size: 1.4rem; letter-spacing: 1px; }
+
+        /* 文献卡片样式 */
+        .paper-item { background: #fff; border: 1px solid #000; padding: 25px; margin-bottom: 30px; box-shadow: 4px 4px 0 #eee; position: relative;}
+        .paper-title { font-size: 1.6rem; font-weight: 800; color: #000; display: block; margin-bottom: 12px; line-height: 1.3; cursor: pointer; }
         .paper-title:hover { color: var(--accent-red); }
-        .paper-meta { font-size: 0.8rem; color: #888; margin-bottom: 8px; }
-        .paper-abstract { font-size: 0.9rem; background: #f9f9f7; padding: 10px; border-left: 3px solid #000; margin-bottom: 10px; }
+        .paper-meta { font-size: 0.95rem; color: #777; margin-bottom: 15px; }
+        .paper-abstract { font-size: 1.1rem; background: #f9f9f9; padding: 20px; border-left: 6px solid #000; color: #222; margin-bottom: 15px; }
         
         /* 文献交互区 */
-        .paper-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-        .paper-btns { display: flex; gap: 15px; align-items: center; }
-        .like-btn { cursor: pointer; color: #555; border: 1px solid #ccc; padding: 1px 8px; border-radius: 3px; background: #fff; transition: 0.2s; }
-        .like-btn:hover { border-color: var(--accent-red); color: var(--accent-red); }
-        .fulltext-link { color: var(--accent-red); text-decoration: none; font-weight: bold; cursor: pointer; }
+        .paper-footer { display: flex; justify-content: space-between; align-items: center; }
+        .paper-link { color: var(--accent-red); font-weight: bold; text-decoration: underline; cursor: pointer; }
+        .like-btn-small { background: #eee; color: #000; border: 1px solid #000; padding: 4px 12px; font-size: 0.9rem; cursor: pointer; }
 
-        /* 分页 */
-        .pagination { display: flex; justify-content: center; gap: 15px; margin: 20px 0; align-items: center; font-weight: bold; }
-        .page-nav { background: #000; color: #fff; border: none; padding: 5px 15px; cursor: pointer; font-size: 0.8rem; }
-        .page-nav:disabled { background: #ccc; cursor: not-allowed; }
+        /* 分页控件 */
+        .pagination { display: flex; justify-content: center; gap: 15px; margin: 40px 0; align-items: center; }
+        .page-btn { background: #000; color: #fff; border: none; padding: 8px 16px; cursor: pointer; }
+        .page-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* 弹窗：右上角关闭 */
-        dialog { border: 3px solid #000; padding: 25px; width: 90%; max-width: 550px; position: relative; }
-        .close-x { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; font-weight: bold; line-height: 1; color: #999; }
-        .close-x:hover { color: #000; }
+        /* 弹窗通用优化：右上角关闭按钮 */
+        dialog { border: 6px solid #000; width: 90%; max-width: 700px; padding: 40px; font-size: 1.2rem; position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; font-weight: bold; line-height: 1; }
+        .close-btn:hover { color: var(--accent-red); }
 
-        /* 通用 */
-        button { background: #000; color: #fff; border: none; padding: 8px 16px; cursor: pointer; font-weight: bold; font-family: inherit; }
-        input, textarea { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; box-sizing: border-box; }
-        .pi-card { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background: #fff; }
+        /* 其他原有样式保持 */
+        .pi-card { background: var(--card-bg); border: 2px solid #000; padding: 20px; margin-bottom: 20px; transition: transform 0.2s; }
+        .pi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .pi-major-name { font-size: 1.6rem; font-weight: 900; }
+        .pi-score { font-size: 2.2rem; font-weight: 950; color: var(--accent-red); }
+        .vote-area { display: flex; align-items: center; gap: 15px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc; }
+        .vote-input { width: 100px !important; text-align: center; margin-bottom: 0 !important; }
+        .ai-box { background: #fff; border: 3px solid #000; padding: 30px; box-shadow: 12px 12px 0px #000; }
+        button { background: #000; color: #fff; border: none; padding: 12px 25px; cursor: pointer; font-weight: bold; }
+        input, textarea { width: 100%; box-sizing: border-box; }
+        .footer-banner { margin-top: 80px; padding: 60px; border: 8px dashed #000; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>PIT: Journal of Professional Inutile Training</h1>
-        <div class="issn">ISSN 2026-0250 | 坑底直连数据库</div>
+        <p>EST. 2026 | ISSN: 0000-0250 | 联合主办: 坑底全球委员会</p>
     </div>
 
-    <div class="slogan-container">
-        <p class="slogan-en">Focusing on Research That Changes Absolutely Nothing</p>
-        <p class="slogan-cn">既然深陷坑底，不如挖得更有创意——极致的无用之美。</p>
+    <div class="slogan-box">
+        <span class="slogan-en">Focusing on Research That Changes Absolutely Nothing</span>
+        <span class="slogan-cn">既然深陷坑底，不如挖得更有创意——极致的无用之美。</span>
+    </div>
+
+    <div class="nav">
+        <a href="#papers">LATEST ISSUE 最新文章</a>
+        <a href="#forum">PIT INDEX 天坑指数</a>
+        <a href="#ai">AI GENERATOR 废话生成</a>
+        <a href="#bottomless">BOTTOMLESS PIT 无底洞</a>
     </div>
 
     <div class="layout">
-        <div class="main-col">
+        <div class="main-col" id="papers">
             <div class="section-title">
                 <h2>Current Issue / 最新文献</h2>
-                <button onclick="document.getElementById('postModal').showModal()" style="font-size: 0.75rem;">我要投稿</button>
+                <button onclick="document.getElementById('submitModal').showModal()">我要投稿</button>
             </div>
-            <div id="papers-list">📡 文献调取中...</div>
-            <div class="pagination" id="page-controls"></div>
+            <div id="papers-container">📡 调取数据中...</div>
+            <div class="pagination" id="pagination-ctrl"></div>
         </div>
 
         <div class="side-col">
-            <div class="section-title">
-                <h2>Pit Index / 天坑指数</h2>
-                <button onclick="document.getElementById('majorModal').showModal()" style="font-size: 0.7rem;">申报</button>
+            <div id="forum">
+                <div class="section-title">
+                    <h2>Pit Index (PI) / 天坑指数</h2>
+                    <button onclick="document.getElementById('addMajorModal').showModal()" style="font-size: 0.8rem; padding: 5px 10px;">申报</button>
+                </div>
+                <div id="pi-container">📡 计算深度中...</div>
             </div>
-            <div id="pi-list">📡 指数刷新中...</div>
+
+            <div id="ai" style="margin-top: 60px;">
+                <div class="section-title"><h2>AI Abstract Generator</h2></div>
+                <div class="ai-box">
+                    <input type="text" id="bs-keyword" placeholder="输入关键词">
+                    <button onclick="generateAIBS()" style="width:100%; margin-top:10px;">生成学术废话</button>
+                    <div id="bs-output" style="margin-top:20px; font-size:1rem; border:1px dashed #ccc; padding:10px;"></div>
+                    <button id="sync-ai-btn" onclick="syncAI()" style="width:100%; margin-top:20px; display:none; background:var(--accent-red);">同步至文献库</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <dialog id="postModal">
-        <span class="close-x" onclick="this.closest('dialog').close()">&times;</span>
-        <h3 style="margin-top:0;">Submit to PIT</h3>
-        <input type="text" id="p-title" placeholder="文章标题">
-        <input type="text" id="p-author" placeholder="作者 (或匿名)">
-        <textarea id="p-abstract" rows="2" placeholder="简短摘要"></textarea>
-        <textarea id="p-content" rows="6" placeholder="正文内容..."></textarea>
-        <button onclick="submitPaper()" style="width:100%;">立即发表</button>
+    <div id="bottomless" class="footer-banner">
+        <h2>Bottomless Pit</h2>
+        <button onclick="openBottomless()" style="font-size: 1.5rem; padding: 15px 40px;">纵身一跳</button>
+    </div>
+
+    <dialog id="submitModal">
+        <span class="close-btn" onclick="this.closest('dialog').close()">&times;</span>
+        <h3>Submit to PIT</h3>
+        <input type="text" id="p-title" placeholder="研究标题">
+        <input type="text" id="p-author" placeholder="署名">
+        <textarea id="p-abstract" rows="3" placeholder="简短摘要"></textarea>
+        <textarea id="p-content" rows="6" placeholder="正文内容"></textarea>
+        <button onclick="submitPaper()" style="width:100%; margin-top:10px;">正式发表</button>
     </dialog>
 
-    <dialog id="majorModal">
-        <span class="close-x" onclick="this.closest('dialog').close()">&times;</span>
-        <h3 style="margin-top:0;">申报新天坑</h3>
-        <input type="text" id="m-name" placeholder="专业名称">
-        <textarea id="m-desc" placeholder="简短描述"></textarea>
-        <button onclick="addNewMajor()" style="width:100%;">确认</button>
+    <dialog id="fullTextModal">
+        <span class="close-btn" onclick="this.closest('dialog').close()">&times;</span>
+        <h3 id="ft-title"></h3>
+        <p id="ft-meta" style="font-size:0.9rem; color:#666;"></p>
+        <div id="ft-content" style="white-space: pre-wrap; margin-top:20px; border-top:1px solid #000; padding-top:20px;"></div>
+    </dialog>
+
+    <dialog id="addMajorModal">
+        <span class="close-btn" onclick="this.closest('dialog').close()">&times;</span>
+        <h3>申报新天坑</h3>
+        <input type="text" id="m-name" placeholder="专业全称">
+        <textarea id="m-desc" placeholder="一句话描述"></textarea>
+        <button onclick="addNewMajor()" style="width:100%; margin-top:10px;">确认申报</button>
     </dialog>
 
     <script>
@@ -117,7 +169,7 @@
 
         window.onload = () => { fetchPapers(); fetchPI(); };
 
-        // --- 核心：文献加载与分页 ---
+        // --- 文献分页与加载逻辑 ---
         async function fetchPapers() {
             const start = (curPage - 1) * pageSize;
             const end = start + pageSize - 1;
@@ -127,79 +179,103 @@
                 .order('created_at', { ascending: false })
                 .range(start, end);
 
-            const list = document.getElementById('papers-list');
-            list.innerHTML = data?.map(p => `
+            const container = document.getElementById('papers-container');
+            container.innerHTML = data?.map(p => `
                 <div class="paper-item">
-                    <span class="paper-title" onclick="viewPaper('${p.id}')">${p.title}</span>
-                    <div class="paper-meta">Author: ${p.author || '匿名受害者'} | Date: ${new Date(p.created_at).toLocaleDateString()}</div>
+                    <span class="paper-title" onclick="showFullText('${encodeURIComponent(JSON.stringify(p))}')">${p.title}</span>
+                    <div class="paper-meta">Received: ${new Date(p.created_at).toLocaleDateString()} | Author: ${p.author}</div>
                     <div class="paper-abstract"><strong>Abstract:</strong> ${p.abstract}</div>
                     <div class="paper-footer">
-                        <div class="paper-btns">
-                            <span class="like-btn" onclick="handleLike('${p.id}', ${p.likes || 0})">👍 共鸣 ${p.likes || 0}</span>
-                        </div>
-                        <a class="fulltext-link" onclick="viewPaper('${p.id}')">VIEW FULL TEXT &rarr;</a>
+                        <span class="paper-link" onclick="showFullText('${encodeURIComponent(JSON.stringify(p))}')">查看全文 &raquo;</span>
+                        <button class="like-btn-small" onclick="likePaper('${p.id}', ${p.likes || 0})">👍 共鸣 (${p.likes || 0})</button>
                     </div>
                 </div>
-            `).join('') || '尚无学术产出。';
+            `).join('') || '暂无文献';
 
-            renderPageBtns(count);
+            renderPagination(count);
         }
 
-        function renderPageBtns(total) {
+        function renderPagination(total) {
             const totalPages = Math.ceil(total / pageSize);
-            const ctrl = document.getElementById('page-controls');
+            const ctrl = document.getElementById('pagination-ctrl');
             ctrl.innerHTML = `
-                <button class="page-nav" ${curPage === 1 ? 'disabled' : ''} onclick="turnPage(-1)">PREV</button>
-                <span style="font-size:0.85rem">Page ${curPage} / ${totalPages || 1}</span>
-                <button class="page-nav" ${curPage >= totalPages ? 'disabled' : ''} onclick="turnPage(1)">NEXT</button>
+                <button class="page-btn" ${curPage === 1 ? 'disabled' : ''} onclick="changePage(-1)">PREV</button>
+                <span style="font-weight:bold">Page ${curPage} of ${totalPages || 1}</span>
+                <button class="page-btn" ${curPage >= totalPages ? 'disabled' : ''} onclick="changePage(1)">NEXT</button>
             `;
         }
 
-        function turnPage(dir) {
-            curPage += dir;
+        function changePage(step) {
+            curPage += step;
             fetchPapers();
-            window.scrollTo(0, 400);
+            window.scrollTo(0, 500);
         }
 
         // --- 交互逻辑 ---
-        async function handleLike(id, cur) {
-            await _supabase.from('pit_papers').update({ likes: cur + 1 }).eq('id', id);
-            fetchPapers();
+        function showFullText(encodedData) {
+            const p = JSON.parse(decodeURIComponent(encodedData));
+            document.getElementById('ft-title').innerText = p.title;
+            document.getElementById('ft-meta').innerText = `Author: ${p.author} | Published: ${new Date(p.created_at).toLocaleString()}`;
+            document.getElementById('ft-content').innerText = p.content || "该作者很懒，没有留下正文。";
+            document.getElementById('fullTextModal').showModal();
         }
 
-        function viewPaper(id) {
-            alert("正在从坑底调取全文档案... (ID: " + id + ")");
+        async function likePaper(id, cur) {
+            await _supabase.from('pit_papers').update({ likes: cur + 1 }).eq('id', id);
+            fetchPapers(); 
         }
 
         async function submitPaper() {
             const title = document.getElementById('p-title').value;
-            const author = document.getElementById('p-author').value;
+            const author = document.getElementById('p-author').value || '匿名受害者';
             const abstract = document.getElementById('p-abstract').value;
             const content = document.getElementById('p-content').value;
-            if(!title) return alert("请填写标题");
+            if(!title || !abstract) return alert("必填标题和摘要");
             await _supabase.from('pit_papers').insert([{ title, author, abstract, content, likes: 0 }]);
             location.reload();
         }
 
-        // --- 天坑指数 ---
+        // --- 其他逻辑保持不变 ---
         async function fetchPI() {
             const { data } = await _supabase.from('pit_forum').select('*').order('count', { ascending: true });
-            const list = document.getElementById('pi-list');
-            list.innerHTML = data?.map(f => `
-                <div class="pi-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong>${f.name}</strong>
-                        <span style="font-size:1.2rem; color:var(--accent-red); font-weight:900;">${f.count}</span>
+            document.getElementById('pi-container').innerHTML = data?.map(f => {
+                const hasVoted = localStorage.getItem('voted_' + f.id);
+                return `<div class="pi-card">
+                    <div class="pi-header"><span class="pi-major-name">${f.name}</span><span class="pi-score">${f.count}</span></div>
+                    <div class="pi-desc">${f.description || '受害者尚未留言。'}</div>
+                    <div class="vote-area">
+                        <input type="number" id="v_${f.id}" class="vote-input" placeholder="0~-250">
+                        <button onclick="votePI('${f.id}', ${f.count})" ${hasVoted?'disabled':''}>${hasVoted?'已砸':'砸砖'}</button>
                     </div>
-                    <p style="font-size:0.8rem; color:#777; margin:5px 0 0 0;">${f.description || ''}</p>
-                </div>
-            `).join('') || '暂无数据';
+                </div>`;
+            }).join('');
         }
 
+        async function votePI(id, cur) {
+            const val = parseInt(document.getElementById('v_'+id).value);
+            if(isNaN(val) || val < -250 || val > 0) return alert("范围 0 到 -250");
+            await _supabase.from('pit_forum').update({ count: cur + val }).eq('id', id);
+            localStorage.setItem('voted_' + id, 'true');
+            fetchPI();
+        }
+
+        function generateAIBS() {
+            const kw = document.getElementById('bs-keyword').value || "天坑";
+            const t = `本文通过引入“${kw}”熵增模型，论证了学术产出在零边际效益下的量子坍缩。`;
+            document.getElementById('bs-output').innerText = t;
+            document.getElementById('sync-ai-btn').style.display = 'block';
+            lastAI = { title: `论“${kw}”的形而上学失效`, abstract: t };
+        }
+
+        async function syncAI() {
+            await _supabase.from('pit_papers').insert([{ ...lastAI, author: 'PIT-AI', content: 'AI 生成内容', likes: 0 }]);
+            fetchPapers();
+        }
+
+        function openBottomless() { document.getElementById('submitModal').showModal(); }
         async function addNewMajor() {
             const name = document.getElementById('m-name').value;
-            const description = document.getElementById('m-desc').value;
-            await _supabase.from('pit_forum').insert([{ name, description, count: 0 }]);
+            await _supabase.from('pit_forum').insert([{ name, description: document.getElementById('m-desc').value, count: 0 }]);
             location.reload();
         }
     </script>
